@@ -7,6 +7,7 @@ before_install:
 - tlmgr install cntformats
 - tlmgr install cnltx
 - tlmgr install pgfopts
+- tlmgr install tasks
 script:
 - mkdir _build
 - pdflatex -output-directory _build tex/test1.tex
