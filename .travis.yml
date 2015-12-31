@@ -5,6 +5,7 @@ before_install:
 - tlmgr install environ
 - tlmgr install trimspaces
 - tlmgr install cntformats
+- tlmgr install cnltx-base
 script:
 - mkdir _build
 - pdflatex -output-directory _build tex/test1.tex
