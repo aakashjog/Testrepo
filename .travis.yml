@@ -4,6 +4,7 @@ before_install:
 - tlmgr install exsheets
 - tlmgr install environ
 - tlmgr install trimspaces
+- tlmgr install cntformats
 script:
 - mkdir _build
 - pdflatex -output-directory _build tex/test1.tex
