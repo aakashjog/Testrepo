@@ -1,0 +1,282 @@
+\documentclass[fleqn, a4paper, 11pt, oneside]{amsart}
+%\usepackage[top = 2cm, bottom = 1cm, left = 1cm, right = 1cm]{geometry}
+\usepackage{exsheets, tasks}
+\usepackage{amsmath, amssymb, amsthm} %standard AMS packages
+\usepackage{marginnote} %marginnotes
+\usepackage{gensymb} %miscellaneous symbols
+\usepackage{commath} %differential symbols
+\usepackage{xcolor} %colours
+\usepackage{cancel} %cancelling terms
+\usepackage[free-standing-units, space-before-unit]{siunitx} %formatting units
+\usepackage{tikz, pgfplots} %diagrams
+\usetikzlibrary{calc, hobby, patterns, intersections, decorations.markings}
+\usepackage{graphicx} %inserting graphics
+\usepackage{hyperref} %hyperlinks
+\usepackage{datetime} %date and time
+\usepackage{ulem} %underline for \emph{}
+\usepackage{xfrac} %inline fractions
+\usepackage{enumerate,enumitem} %numbered lists
+\usepackage{float} %inserting floats
+\usepackage{circuitikz}[american voltages, american currents] %circuit diagrams
+
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}} %adds numbers to specific equations in non-numbered list of equations
+
+\newcommand{\AxisRotator}[1][rotate=0]{
+	\tikz [x=0.25cm,y=0.60cm,line width=.2ex,-stealth,#1] \draw (0,0) arc (-150:150:1 and 1);%
+} %rotation symbols on axes
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}
+
+\newcommand{\curl}{\mathrm{curl\,}}
+
+\makeatletter
+\@addtoreset{section}{part} %resets section numbers in new part
+\makeatother
+
+\renewcommand{\thesubsection}{(\arabic{subsection})}
+\renewcommand{\thesection}{(\arabic{section})}
+
+%section headings on left
+\makeatletter
+\def\specialsection{\@startsection{section}{1}%
+	\z@{\linespacing\@plus\linespacing}{.5\linespacing}%
+	%  {\normalfont\centering}}% DELETED
+	{\normalfont}}% NEW
+\def\section{\@startsection{section}{1}%
+	\z@{.7\linespacing\@plus\linespacing}{.5\linespacing}%
+	%  {\normalfont\scshape\centering}}% DELETED
+	{\normalfont\scshape}}% NEW
+\makeatother
+
+%forces newline after subsection
+\makeatletter
+\def\subsection{\@startsection{subsection}{3}%
+	\z@{.5\linespacing\@plus.7\linespacing}{.1\linespacing}%
+	{\normalfont\itshape}}
+\makeatother
+
+\settasks{counter-format = tsk[1].}
+
+\SetupExSheets{solution/print = true}
+
+%opening
+\title{Harmonic Analysis : Assignment 2}
+\author
+{
+	Aakash Jog\\
+	ID : 989323563
+}
+\date{\formatdate{10}{11}{2015}}
+
+\begin{document}
+
+\tikzset{->-/.style={decoration={
+  markings,
+  mark=at position #1 with {\arrow{>}}},postaction={decorate}}}
+
+\maketitle
+%\setlength{\mathindent}{0pt}
+
+\begin{question}
+	Is there a piecewise continuous function $f$ on $[-\pi,\pi]$ such that $b_n = \frac{1}{n}$, $a_n = (-1)^n$?
+\end{question}
+
+\begin{solution}
+	By Riemann-Lebesgue's Lemma, if $f$ is piecewise continuous, then
+	\begin{equation*}
+		\lim\limits_{n \to \infty} a_n = \lim\limits_{n \to \infty} = 0
+	\end{equation*}
+	Therefore, as $\lim\limits_{n \to \infty} a_n$ does not exist, $f$ cannot be piecewise continuous.
+\end{solution}
+
+\begin{question}
+	Calculate the limit $L = \lim\limits_{n \to \infty} \int\limits_{-\pi}^{\pi} \left( \sin^{\frac{1}{3}} x + \sin n x \right) \sin n x \dif x$.
+\end{question}
+
+\begin{solution}
+	As $\sin^{\frac{1}{3}} x$ is piecewise continuous, by Riemann-Lebesgue's Lemma,
+	\begin{align*}
+		L & = \lim\limits_{n \to \infty} \int\limits_{-\pi}^{\pi} \left( \sin^{\frac{1}{3}} x + \sin n x \right) \sin n x \dif x                                                                 \\
+                  & = \lim\limits_{n \to \infty} \left( \int\limits_{-\pi}^{\pi} \sin^{\frac{1}{3}} x \sin n x \dif x + \int\limits_{-\pi}^{\pi} \sin^2 n x \dif x \right)                               \\
+                  & = \pi \lim\limits_{n \to \infty} \frac{1}{\pi} \int\limits_{-\pi}^{\pi} \sin^{\frac{1}{3}} x \sin n x \dif x + \lim\limits_{n \to \infty} \int\limits_{-\pi}^{\pi} \sin^2 n x \dif x \\
+                  & = 0 + \lim\limits_{n \to \infty} \int\limits_{-\pi}^{\pi} \sin^2 n x                                                                                                                 \\
+                  & = \frac{1}{2} \lim\limits_{n \to \infty} \int\limits_{-\pi}^{\pi} 1 - \cos 2 n x \dif x                                                                                              \\
+                  & = \pi
+	\end{align*}
+\end{solution}
+
+\begin{question}
+	Let $f$ be a piecewise periodic function with period $\beta$.
+	Show that the integral $\int\limits_{a}^{a + \beta} f(x) \dif x$ is independent of $a$.
+	Hint: Define $g(a) = \int\limits_{a}^{a + \beta} f(x) \dif x$ and show that $g$ is constant.
+\end{question}
+
+\begin{solution}
+	Let
+	\begin{align*}
+		g(a) & = \int\limits_{a}^{a + \beta} f(x) \dif x                                   \\
+                     & = \int\limits_{a}^{0} f(x) \dif x + \int\limits_{0}^{a + \beta} f(x) \dif x \\
+                     & = \int\limits_{0}^{a + \beta} f(x) \dif x - \int\limits_{0}^{a} f(x) \dif x
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		g'(a) & = f(a + \beta) - f(a)
+	\end{align*}
+	As $f$ is periodic, $\forall a$,
+	\begin{align*}
+		f(a + \beta)     & = f(a) \\
+		\therefore g'(a) & = 0
+	\end{align*}
+	Therefore, $g(a)$ is independent of $a$.
+	\qed
+\end{solution}
+
+\begin{question}
+	Prove that for all $x \in (-\pi,\pi)$, the following equality holds.
+	\begin{align*}
+		\sum\limits_{n = 1}^{\infty} \frac{(-1)^{n + 1}}{n} \sin n x & = \frac{x}{2}
+	\end{align*}
+	Hint: Develop the Fourier series of $f(x) = x$ and use Dirichlet theorem to show point wise continuity.
+\end{question}
+
+\begin{solution}
+	Let
+	\begin{align*}
+		f(x) & = x
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		a_0 & = \frac{1}{\pi} \int\limits_{-\pi}^{\pi} f(x) \dif x             \\
+                    & = \frac{1}{\pi} \int\limits_{-\pi}^{\pi} x \dif x                \\
+                    & = \frac{1}{\pi} \left. \frac{x^2}{2} \right|_{-\pi}^{\pi}        \\
+                    & = \frac{1}{\pi} \left( \frac{\pi^2}{2} - \frac{\pi^2}{2} \right) \\
+                    & = 0
+	\end{align*}
+	\begin{align*}
+		a_n & = \frac{1}{\pi} \int\limits_{-\pi}^{\pi} f(x) \cos(n x) \dif x                            \\
+                    & = \frac{1}{\pi} \int\limits_{-\pi}^{\pi} x \cos(n x) \dif x                               \\
+                    & = \frac{1}{\pi} \left. \frac{\cos(n x)}{n^2} + \frac{x \sin(n x)}{n} \right|_{-\pi}^{\pi} \\
+                    & = 0
+	\end{align*}
+	\begin{align*}
+		b_n & = \frac{1}{\pi} \int\limits_{-\pi}^{\pi} f(x) \sin(n x) \dif x                            \\
+                    & = \frac{1}{\pi} \int\limits_{-\pi}^{\pi} x \sin(n x) \dif x                               \\
+                    & = \frac{1}{\pi} \left. \frac{\sin(n x)}{n^2} - \frac{x \cos(n x)}{n} \right|_{-\pi}^{\pi} \\
+                    & = 2 \frac{(-1)^{n + 1}}{n}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		x & \approx 2 \sum\limits_{n = 1}^{\infty} (-1)^{n + 1} \frac{\sin(n x)}{n}
+	\end{align*}
+	Therefore, by Dirichlet theorem,
+	\begin{align*}
+		2 \sum\limits_{n = 1}^{\infty} \frac{(-1)^{n + 1}}{n} \sin n x          & = \frac{f(x^-) + f(x^+)}{2} \\
+                                                                                        & = x                         \\
+		\therefore \sum\limits_{n = 1}^{\infty} \frac{(-1)^{n + 1}}{n} \sin n x & = \frac{x}{2}
+	\end{align*}
+	\qed
+\end{solution}
+
+\begin{question}
+	Using the function $g(x) = x \left( \pi - |x| \right)$ calculate the series $\sum\limits_{n = 1}^{\infty} \frac{(-1)^{n + 1}}{(2 n - 1)^3}$.
+\end{question}
+
+\begin{solution}
+	\begin{align*}
+		g(x) & = x \left( \pi - |x| \right)
+	\end{align*}
+	Therefore, as the function is odd, its Fourier series is
+	\begin{align*}
+		g(x) & \approx \sum\limits_{n = 1}^{\infty} b_n \sin(n x) \dif x
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		b_n & = \frac{1}{\pi} \int\limits_{-\pi}^{\pi} x \left( \pi - |x| \right) \sin(n x) \dif x                                                   \\
+                    & = \frac{1}{\pi} \int\limits_{-\pi}^{0} x (\pi + x) \sin(n x) \dif x + \frac{1}{\pi} \int\limits_{0}^{\pi} x (\pi - x) \sin(n x) \dif x \\
+                    & = \frac{1}{\pi} \frac{2 - 2 \cos(n \pi) - n \pi \sin(n \pi)}{n^3} + \frac{1}{\pi} \frac{2 - 2 \cos(n \pi) - n \pi \sin(n \pi)}{n^3}    \\
+                    & = \frac{4}{\pi n^3} \left( 1 - (-1)^n \right)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		b_n &=
+			\begin{cases}
+				0                 & ;\quad n \text{ is even} \\
+				\frac{8}{\pi n^3} & ;\quad n \text{ is odd}  \\
+			\end{cases}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\frac{g\left( {\frac{\pi}{2}}^+ \right) + g\left( {\frac{\pi}{2}}^- \right)}{2} & = \frac{8}{\pi} \sum\limits_{k = 1}^{\infty} \frac{1}{(2 k - 1)^2} \sin\left( (2 k - 1) x \right) \\
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\sum\limits_{k = 1}^{\infty} \frac{(-1)^{n + 1}}{(2 k - 1)^3} & = \frac{\pi^3}{32}
+	\end{align*}
+\end{solution}
+
+\begin{question}
+	Find the Fourier series of $f(x) = 1 - x^2$.
+	For which values does it converge when $x = 5 \pi$ and $x = 6 \pi$.
+\end{question}
+
+\begin{solution}
+	As $x^2$ is even, its Fourier series is
+	\begin{align*}
+		x^2 & \approx \frac{a_0}{2} \sum\limits_{n = 1}^{\infty} a_n \cos(n x)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		a_0 & = \frac{1}{\pi} \int\limits_{-\pi}^{\pi} x^2 \dif x       \\
+                    & = \frac{1}{\pi} \left. \frac{x^3}{3} \right|_{-\pi}^{\pi} \\
+                    & = \frac{1}{\pi} \frac{2 \pi^3}{3}                         \\
+                    & = \frac{2 \pi^2}{3}
+	\end{align*}
+	\begin{align*}
+		a_n & = \frac{1}{\pi} \int\limits_{-\pi}^{\pi} x^2 \cos(n x) \dif x                                                            \\
+                    & = \frac{1}{\pi} \left. \frac{2 x \cos(n x)}{n^2} + \frac{\left( n^2 x^2 - 2 \right) \sin(n x)}{n^3} \right|_{-\pi}^{\pi} \\
+                    & = \frac{4}{n^2} (-1)^n
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		x^2                & \approx \frac{\pi^2}{3} + \sum\limits_{n = 1}^{\infty} (-1)^n \frac{4}{n^2} \cos(n x)     \\
+		\therefore 1 - x^2 & \approx 1 - \frac{\pi^2}{3} - \sum\limits_{n = 1}^{\infty} (-1)^n \frac{4}{n^2} \cos(n x) \\
+	\end{align*}
+\end{solution}
+
+\begin{question}
+	Out of the Fourier series of $\cos \alpha x$ for non-integral $\alpha$, find $\cot(\alpha \pi)$.
+\end{question}
+
+\begin{solution}
+	As $\cos(\alpha x)$ is even, its Fourier series is
+	\begin{align*}
+		\cos(\alpha x) & \approx \frac{a_0}{2} \sum\limits_{n = 1}^{\infty} a_n \cos(n x)
+	\end{align*}
+	\begin{align*}
+		a_0 & = \frac{1}{\pi} \int\limits_{-\pi}^{\pi} \cos(\alpha x) \dif x            \\
+                    & = \frac{1}{\pi} \left. \frac{\sin(\alpha x)}{\alpha} \right|_{-\pi}^{\pi} \\
+                    & = \frac{2 \sin(\alpha \pi)}{\alpha \pi}
+	\end{align*}
+	\begin{align*}
+		a_n & = \frac{1}{\pi} \int\limits_{-\pi}^{\pi} \cos(\alpha x) \cos(n x) \dif x \\
+                    & = \frac{(-1)^n}{\pi} \sin(\alpha \pi) \frac{2 \alpha}{\alpha^2 - n^2}
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\cos(\alpha x) & \approx \frac{\sin(\alpha \pi)}{\alpha \pi} + \sum\limits_{n = 1}^{\infty} \frac{(-1)^n}{\pi} \sin(\alpha \pi) \frac{2 \alpha}{\alpha^2 - n^2} \cos(n x) \\
+                               & = \frac{\sin(\alpha \pi)}{\alpha \pi} + \frac{2 \alpha \sin(\alpha \pi)}{\pi} \sum\limits_{n = 1}^{\infty} \frac{(-1)^n}{\alpha^2 - n^2} \cos(n x)
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\cos(\alpha \pi)            & = \frac{\sin(\alpha \pi)}{\alpha \pi} + \frac{2 \alpha \sin(\alpha \pi)}{\pi} \sum\limits_{n = 1}^{\infty} \frac{(-1)^n}{\alpha^2 - n^2} (-1)^n \\
+                                            & = \frac{\sin(\alpha \pi)}{\alpha \pi} + \frac{2 \alpha \sin(\alpha \pi)}{\pi} \sum\limits_{n = 1}^{\infty} \frac{1}{\alpha^2 - n^2}             \\
+		\therefore \cot(\alpha \pi) & = \frac{1}{\alpha \pi} + \frac{2 \alpha}{\pi} \sum\limits_{n = 1}^{\infty} \frac{1}{\alpha^2 - n^2}
+	\end{align*}
+\end{solution}
+
+\end{document}
