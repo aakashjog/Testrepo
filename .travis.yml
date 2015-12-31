@@ -3,6 +3,7 @@ before_install:
 - export PATH="$PATH:$HOME/texlive/bin/x86_64-linux"
 - tlmgr install exsheets
 - tlmgr install environ
+- tlmgr install trimspaces
 script:
 - mkdir _build
 - pdflatex -output-directory _build tex/test1.tex
