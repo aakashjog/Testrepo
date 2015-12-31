@@ -1,5 +1,7 @@
 before_install:
+- sudo add-apt-repository ppa:texlive-backports/ppa
 - "sudo apt-get update && sudo apt-get install --install-tl texlive-fonts-recommended texlive-latex-extra texlive-fonts-extra dvipng texlive-latex-recommended"
+- install-tl
 - tlmgr install exsheets
 script:
 - mkdir _build
